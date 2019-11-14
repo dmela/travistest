@@ -1,12 +1,13 @@
 
 language: python
 
-python:
-  - "2.7"
-
-env:
-  - FOO=foo BAR=bar
-  - FOO=bar BAR=foo
+jobs:
+  include:
+  - python: "2.7"
+    env: FOO=foo BAR=bar
+  - python: "2.7"
+    env: FOO=asd BAR=dsa
+      
 
 before_script:
   - echo $FOO
