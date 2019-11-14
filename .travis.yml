@@ -1,24 +1,17 @@
 language: python
 
+os: linux
+
 jobs:
   include:
-  - os: linux
-    python: "2.7"
+  - python: "2.7"
     env: PYTHON_VERSION=py27
-  - os: linux
-    python: "3.7"
+  - python: "3.7"
+    dist: bionic
     env: PYTHON_VERSION=py37
-  - os: windows
-    python: "2.7"
-    env: PYTHON_VERSION=py27
-  - os: windows
-    python: "3.7"
-    env: PYTHON_VERSION=py37
-          
 
 before_script:
-  - echo $FOO
-  - echo $BAR
+  - echo $PYTHON_VERSION
 
 script:
   - python test_calc.py
