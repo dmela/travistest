@@ -1,12 +1,16 @@
 
 language: python
 
+os:
+  - linux
+  - windows
+
 jobs:
   include:
   - python: "2.7"
-    env: FOO=foo BAR=bar
-  - python: "2.7"
-    env: FOO=asd BAR=dsa
+    env: PYTHON_VERSION=py27
+  - python: "3.7"
+    env: PYTHON_VERSION=py37
       
 
 before_script:
