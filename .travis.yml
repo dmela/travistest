@@ -16,5 +16,8 @@ before_script:
 script:
   - python test_calc.py
 
+cache:
+  - pip
+
 notifications:
     email: false
