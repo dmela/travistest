@@ -22,8 +22,5 @@ cache:
   - directories:
     - /home/travis/build/dmela/travistest/hugefiles/
 
-
-
-
 notifications:
     email: false
