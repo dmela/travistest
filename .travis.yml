@@ -7,6 +7,7 @@ cache:
 
 jobs:
   include:
+<<<<<<< HEAD
     - stage: test-eg
       - python: "2.7"
         env: TARGET=test-target
@@ -14,6 +15,15 @@ jobs:
       - python: "3.7"
         env: TARGET=test-target
         script: python test_calc.py
+=======
+    - &test
+      stage: test-eg
+      env: TARGET=test-target
+      python: "2.7"
+      script: python test_calc.py
+    - <<: *test
+      python: "3.7"
+>>>>>>> 56ca8c429ccaa12f897ca365812739ed55269a20
     - stage: deploy-eg
       env: TARGET=deploy-target
       python: "3.7"
