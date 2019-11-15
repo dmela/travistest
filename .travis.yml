@@ -2,24 +2,24 @@ language: python
 
 os: linux
 
-python:
-  - "2.7"
-  - "3.7"
-
 cache:
   - pip
-
-before_script:
-  - echo $TARGET
 
 jobs:
   include:
     - stage: test-eg
       env: TARGET=test-target
+      python:
+        - "2.7"
+        - "3.7"
       script: python test_calc.py
     - stage: deploy-eg
       env: TARGET=deploy-target
+      python: "3.7"
       script: python deploy.py
-  
+
+after_script:
+  - echo $TARGET
+
 notifications:
     email: false
