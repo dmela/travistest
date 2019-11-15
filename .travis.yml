@@ -8,23 +8,9 @@ cache:
 jobs:
   include:
     - stage: test-eg
-<<<<<<< HEAD
       python: "2.7"
       env: TARGET=test-target
       script: python test_calc.py
-    - stage: test-eg2
-      python: "3.7"
-      env: TARGET=test-target2
-      script: python test_calc.py
-=======
-      - python: "2.7"
-        env: TARGET=test-target
-        script: python test_calc.py
-    - stage: test-eg2
-      - python: "3.7"
-        env: TARGET=test-target2
-        script: python test_calc.py
->>>>>>> 8807be867761e62467be9ddbc156ab91e9febf36
     - stage: deploy-eg
       env: TARGET=deploy-target
       python: "3.7"
