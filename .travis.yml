@@ -20,7 +20,7 @@ script:
 cache:
   - pip
   - directories:
-    - /hugefiles/
+    - /home/travis/build/dmela/travistest/hugefiles/
 
 
 
