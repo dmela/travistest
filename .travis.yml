@@ -8,22 +8,21 @@ before_script:
 cache:
   - pip
 
-jobs:
-  include:
-  - stage: test
-    - python: "2.7"
-      env: PYTHON_VERSION=py27
-      script: python test_calc.py
-    - python: "3.7"
-      dist: bionic
-      env: PYTHON_VERSION=py37
-      script: python test_calc.py
-  - stage: deploy
-      env: PYTHON_VERSION=none
-      script: python deploy.py
+# jobs:
+#   include:
+#   - stage: test
+#     - python: "2.7"
+#       env: PYTHON_VERSION=py27
+#       script: python test_calc.py
+#     - python: "3.7"
+#       dist: bionic
+#       env: PYTHON_VERSION=py37
+#       script: python test_calc.py
+#   - stage: deploy
+#       env: PYTHON_VERSION=none
+#       script: python deploy.py
 
-
-
+script: python test_calc.py
 
 notifications:
     email: false
