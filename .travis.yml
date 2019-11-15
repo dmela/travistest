@@ -2,6 +2,11 @@ language: python
 
 os: linux
 
+cache:
+  - pip
+  - directories:
+    - /home/travis/build/dmela/travistest/hugefiles/
+
 jobs:
   include:
   - python: "2.7"
@@ -14,14 +19,11 @@ before_script:
   - echo $PYTHON_VERSION
   - pwd
   - echo $HOME
+  - ls -al
+  - ls -al $HOME
 
 script:
   - python test_calc.py
-
-cache:
-  - pip
-  - directories:
-    - /home/travis/build/dmela/travistest/hugefiles/
 
 notifications:
     email: false
