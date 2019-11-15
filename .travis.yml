@@ -2,27 +2,24 @@ language: python
 
 os: linux
 
-before_script:
-  - echo $PYTHON_VERSION
+python:
+  - "2.7"
+  - "3.7"
 
 cache:
   - pip
 
-# jobs:
-#   include:
-#   - stage: test
-#     - python: "2.7"
-#       env: PYTHON_VERSION=py27
-#       script: python test_calc.py
-#     - python: "3.7"
-#       dist: bionic
-#       env: PYTHON_VERSION=py37
-#       script: python test_calc.py
-#   - stage: deploy
-#       env: PYTHON_VERSION=none
-#       script: python deploy.py
+before_script:
+  - echo $TARGET
 
-script: python test_calc.py
-
+jobs:
+  include:
+    - stage: test-eg
+      env: TARGET=test-target
+      script: python test_calc.py
+    - stage: deploy-eg
+      env: TARGET=deploy-target
+      script: python deploy.py
+  
 notifications:
     email: false
