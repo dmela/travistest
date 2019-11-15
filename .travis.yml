@@ -13,6 +13,7 @@ jobs:
 before_script:
   - echo $PYTHON_VERSION
   - pwd
+  - echo $HOME
 
 script:
   - python test_calc.py
