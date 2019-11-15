@@ -2,24 +2,26 @@ language: python
 
 os: linux
 
-jobs:
-  include:
-  - python: "2.7"
-    env: PYTHON_VERSION=py27
-  - python: "3.7"
-    dist: bionic
-    env: PYTHON_VERSION=py37
-
 before_script:
   - echo $PYTHON_VERSION
 
-script:
-  - python test_calc.py
-
 cache:
   - pip
-  - directories:
-    - /hugefiles/
+
+
+jobs:
+  include:
+  - stage: test
+    - python: "2.7"
+      env: PYTHON_VERSION=py27
+      script: python test_calc.py
+    - python: "3.7"
+      dist: bionic
+      env: PYTHON_VERSION=py37
+      script: python test_calc.py
+  - stage: deploy
+      env: PYTHON_VERSION=none
+      script: python deploy.py
 
 
 
