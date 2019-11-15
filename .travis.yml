@@ -18,6 +18,11 @@ script:
 
 cache:
   - pip
+  - directories:
+    - /hugefiles/
+
+
+
 
 notifications:
     email: false
