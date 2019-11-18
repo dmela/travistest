@@ -16,8 +16,8 @@ jobs:
       env: 
         - TARGET=test-target37
         - HELLO="Hello from test-eg 2 master"
-        - if: branch = dev
-          HELLO="Hello from test-eg 2 dev"
+      if: branch = dev
+      env: HELLO="Hello from test-eg 2 dev"
       before_script:
         - echo $HELLO
       script: python test_calc.py
