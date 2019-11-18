@@ -19,7 +19,7 @@ jobs:
       before_script:
         - echo $HELLO
       script: python test_calc.py
-    - stage: test-eg
+    - stage: test-eg # Now we are in dev so this build should also execute
       if: branch = dev
       python: "3.8"
       env: TARGET=test-target38
