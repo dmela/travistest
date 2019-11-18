@@ -15,7 +15,9 @@ jobs:
       python: "3.7"
       env: 
         - TARGET=test-target37
-        - HELLO="Hello from test-eg 2"
+        - HELLO="Hello from test-eg 2 master"
+        - if: branch = dev
+          HELLO="Hello from test-eg 2 dev"
       before_script:
         - echo $HELLO
       script: python test_calc.py
@@ -30,7 +32,7 @@ after_script:
 stages:
   # Suorittaa järjestyksessä
   - test-eg # Suorita aina
-  - name: deploy-eg # Suorita ehdolla
+  - name: deploy-eg # Suorita ehdolla, kun branch on master
     if: branch = master
 
 notifications:
