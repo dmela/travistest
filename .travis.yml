@@ -32,6 +32,8 @@ stages:
   - deploy-eg
   - name: deploy-eg
     if: branch = master
+  - name: test-eg
+    if: branch = dev
 
 notifications:
     email: false
