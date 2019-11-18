@@ -28,11 +28,12 @@ after_script:
   - echo $TARGET
 
 stages:
-  # - test-eg
-  # - deploy-eg
-  - name: deploy-eg
+  # Suorittaa järjestyksessä
+  # - test-eg # Suorita
+  # - deploy-eg # Suorita
+  - name: deploy-eg # Suorita ehdolla
     if: branch = master
-  - name: test-eg
+  - name: test-eg # Suorita ehdolla
     if: branch = dev
 
 notifications:
