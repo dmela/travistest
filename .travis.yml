@@ -16,11 +16,14 @@ jobs:
       env: 
         - TARGET=test-target37
         - HELLO="Hello from test-eg 2 master"
-      if: branch = dev
-      env: HELLO="Hello from test-eg 2 dev"
       before_script:
         - echo $HELLO
       script: python test_calc.py
+    - stage: test-eg
+      if: branch = dev
+      python: "3.8"
+      env: TARGET=test-target38
+      script: skip
     - stage: deploy-eg
       env: TARGET=deploy-target
       python: "3.7"
