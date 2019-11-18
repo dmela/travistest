@@ -5,6 +5,7 @@ os: linux
 cache:
   - pip
 
+
 jobs:
   include:
     - stage: test-eg
@@ -13,7 +14,11 @@ jobs:
       script: python test_calc.py
     - stage: test-eg 
       python: "3.7"
-      env: TARGET=test-target37
+      env: 
+        - TARGET=test-target37
+        - HELLO="Hello from test-eg 2"
+      before_script:
+        - echo $HELLO
       script: python test_calc.py
     - stage: deploy-eg
       env: TARGET=deploy-target
