@@ -9,7 +9,10 @@ jobs:
   include:
     - stage: test-eg
       python: "2.7"
-      env: TARGET=test-target
+      env: TARGET=test-target27
+      script: python test_calc.py
+    - python: "3.7"
+      env: TARGET=test-target37
       script: python test_calc.py
     - stage: deploy-eg
       env: TARGET=deploy-target
