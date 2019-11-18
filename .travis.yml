@@ -28,8 +28,8 @@ after_script:
   - echo $TARGET
 
 stages:
-  - test-eg
-  - deploy-eg
+  - name: test-eg
+  - name: deploy-eg
 
 notifications:
     email: false
