@@ -28,8 +28,10 @@ after_script:
   - echo $TARGET
 
 stages:
-  - name: test-eg
+  - test-eg
+  - deploy-eg
   - name: deploy-eg
+    if: branch = master
 
 notifications:
     email: false
