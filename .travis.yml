@@ -28,5 +28,9 @@ jobs:
 after_script:
   - echo $TARGET
 
+stages:
+  - name: deploy-eg
+  if: branch = master
+
 notifications:
     email: false
