@@ -29,12 +29,9 @@ after_script:
 
 stages:
   # Suorittaa järjestyksessä
-  # - test-eg # Suorita
-  # - deploy-eg # Suorita
+  - test-eg # Suorita aina
   - name: deploy-eg # Suorita ehdolla
     if: branch = master
-  - name: test-eg # Suorita ehdolla
-    if: branch = dev
 
 notifications:
     email: false
