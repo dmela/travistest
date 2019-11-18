@@ -5,10 +5,6 @@ os: linux
 cache:
   - pip
 
-stages:
-  - test-eg
-  - deploy-eg
-
 jobs:
   include:
     - stage: test-eg
@@ -31,6 +27,9 @@ jobs:
 after_script:
   - echo $TARGET
 
+stages:
+  - test-eg
+  - deploy-eg
 
 notifications:
     email: false
