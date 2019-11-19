@@ -46,8 +46,7 @@ jobs:
 
 after_script:
   - echo $PY_VERSION
-  - if [ $PY_VERSION = "3.7" ]; then
-      echo "$HELLO";
+  - if [ $PY_VERSION == "3.7" ]; then
       echo "asd";
     fi
   - echo "KDKOAKDOAKDA"
