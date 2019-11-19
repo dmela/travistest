@@ -4,17 +4,23 @@ services: docker
 
 language: bash
 
+env:
+ - PY_VERSION=none
+
 jobs:
   include:
     - stage: python-version-tests
       python: "2.7"
       script: python test_calc.py
+      env: PY_VERSION=27
     - # python-version-tests
       python: "3.7"
       script: python test_calc.py
+      env: PY_VERSION=37
     - # python-version-tests
       python: "3.8"
       script: python test_calc.py
+      env: PY_VERSION=38
     - stage: container-tests
       before_install:
         - docker pull python:3.6.9-alpine3.9
@@ -23,9 +29,11 @@ jobs:
         - docker run --rm my-calc python test_calc.py
     - stage: deploy
       python: "3.7"
+      env: PY_VERSION=37
       script: python deploy.py
 
 stages:
+  # stages are executed in the following order
   - python-version-tests
   - container-tests
   - name: deploy
