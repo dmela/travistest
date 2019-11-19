@@ -1,42 +1,14 @@
-language: python
+sudo: required
 
-os: linux
+services:
+  - docker
 
-cache:
-  - pip
+before_install:
+  - docker pull python:3.6.9-alpine3.9
+  - docker build -t my-calc .
 
-jobs:
-  include:
-    - stage: test-eg
-      python: "2.7"
-      env: TARGET=test-target27
-      script: python test_calc.py
-    - stage: test-eg 
-      python: "3.7"
-      env: 
-        - TARGET=test-target37
-        - HELLO="Hello from test-eg 2 master"
-      before_script:
-        - echo $HELLO
-      script: python test_calc.py
-    - stage: test-eg # Now we are in dev so this build should also execute
-      if: branch = dev
-      python: "3.8"
-      env: TARGET=test-target38
-      script: skip
-    - stage: deploy-eg
-      env: TARGET=deploy-target
-      python: "3.7"
-      script: python deploy.py
-
-after_script:
-  - echo $TARGET
-
-stages:
-  # Suorittaa järjestyksessä
-  - test-eg # Suorita aina
-  - name: deploy-eg # Suorita ehdolla, kun branch on master
-    if: branch = master
+script:
+  - docker run --rm my-calc python test_calc.py
 
 notifications:
     email: false
