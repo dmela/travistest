@@ -46,8 +46,10 @@ jobs:
 
 after_script:
   - echo $PY_VERSION
-    if: env($PY_VERSION) = "3.7"
-      - echo $HELLO
+  - |
+    if [ "${PY_VERSION}" = "3.7" ]; then
+      echo $HELLO
+    fi
 
 stages:
   # stages are executed in the following order
