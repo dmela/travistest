@@ -25,5 +25,11 @@ jobs:
       python: "3.7"
       script: python deploy.py
 
+stages:
+  - python-version-tests
+  - container-tests
+  - name: deploy
+    if: branch = master
+
 notifications:
     email: false
