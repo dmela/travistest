@@ -48,6 +48,7 @@ after_script:
   - echo $PY_VERSION
   - |
     if [ $PY_VERSION == "37" ]; then
+      echo $HELLO;
       echo "asd";
     fi
   - echo "KDKOAKDOAKDA"
