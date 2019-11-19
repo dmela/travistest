@@ -1,14 +1,13 @@
-sudo: required
-
-services:
-  - docker
-
-before_install:
-  - docker pull python:3.6.9-alpine3.9
-  - docker build -t my-calc .
-
-script:
-  - docker run --rm my-calc python test_calc.py
+jobs:
+  include:
+    - stage: test
+      sudo: required
+      services: docker
+      before_install:
+        - docker pull python:3.6.9-alpine3.9
+        - docker build -t my-calc .
+      script:
+        - docker run --rm my-calc python test_calc.py
 
 notifications:
     email: false
