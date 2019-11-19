@@ -9,31 +9,46 @@ env:
 
 jobs:
   include:
+    # Python-version-tests has three (3) parallel jobs mainly.
+    # Maily because of we want to test the compatibility of the app
+    # with three different python versions.
     - stage: python-version-tests
       python: "2.7"
       script: python test_calc.py
       env: PY_VERSION=27
-    - # python-version-tests
+    - # parallel job in python-version-tests stage
       python: "3.7"
       script: python test_calc.py
-      env: PY_VERSION=37
-    - # python-version-tests
+      env:
+        - PY_VERSION=37
+        - HELLO="Hello from python version 3.7 build"
+    - # parallel job in python-version-tests stage
       python: "3.8"
       script: python test_calc.py
       env: PY_VERSION=38
-    - stage: container-tests
-      before_install:
-        - docker pull python:3.6.9-alpine3.9
-        - docker build -t my-calc .
-      script:
-        - docker run --rm my-calc python test_calc.py
+
+    # - stage: container-tests
+    #   before_install:
+    #     - docker pull python:3.6.9-alpine3.9
+    #     - docker build -t my-calc .
+    #   script:
+    #     - docker run --rm my-calc python test_calc.py
+    #   after_script:
+    #     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    #     - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
+
     - stage: deploy
       python: "3.7"
       env: PY_VERSION=37
       script: python deploy.py
+      # - # parallel job in deploy stage
+
 
 after_script:
   - echo $PY_VERSION
+  - if [ $PY_VERSION == "37" ]; then
+      echo $HELLO;
+    fi
 
 stages:
   # stages are executed in the following order
