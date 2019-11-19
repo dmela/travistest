@@ -6,13 +6,24 @@ language: bash
 
 jobs:
   include:
-    - stage: test
-
+    - stage: python-version-tests
+      python: "2.7"
+      script: python test_calc.py
+    - # python-version-tests
+      python: "3.7"
+      script: python test_calc.py
+    - # python-version-tests
+      python: "3.8"
+      script: python test_calc.py
+    - stage: container-tests
       before_install:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t my-calc .
       script:
         - docker run --rm my-calc python test_calc.py
+    - stage: deploy
+      python: "3.7"
+      script: python deploy.py
 
 notifications:
     email: false
