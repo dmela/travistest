@@ -50,6 +50,7 @@ after_script:
       echo "$HELLO";
       echo "asd";
     fi
+  - echo "KDKOAKDOAKDA"
 
 stages:
   # stages are executed in the following order
