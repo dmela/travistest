@@ -27,15 +27,15 @@ jobs:
       script: python test_calc.py
       env: PY_VERSION=38
 
-    # - stage: container-tests
-    #   before_install:
-    #     - docker pull python:3.6.9-alpine3.9
-    #     - docker build -t my-calc .
-    #   script:
-    #     - docker run --rm my-calc python test_calc.py
-    #   after_script:
-    #     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    #     - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
+    - stage: container-tests
+      before_install:
+        - docker pull python:3.6.9-alpine3.9
+        - docker build -t my-calc .
+      script:
+        - docker run --rm my-calc python test_calc.py
+      after_script:
+        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+        - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
 
     - stage: deploy
       python: "3.7"
