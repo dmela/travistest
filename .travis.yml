@@ -6,8 +6,7 @@ python:
 
 jobs:
   include:
-    - python: "3.5"
-      env: EXTRA_TESTS=true
+    - env: EXTRA_TESTS=true
     - python: "3.7"
       env: EXTRA_TESTS=true
 
