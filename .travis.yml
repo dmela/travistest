@@ -39,6 +39,7 @@ jobs:
         - docker run --rm my-calc python test_calc.py
       after_script:
         - echo $PY_VERSION
+        - echo $GLOBAL
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
 
@@ -54,6 +55,7 @@ after_script:
   - if [ $PY_VERSION == "37" ]; then
       echo $HELLO;
     fi
+  - echo $GLOBAL
 
 stages:
   # stages are executed in the following order
