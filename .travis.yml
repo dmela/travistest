@@ -7,7 +7,8 @@ language: bash
 # Jos tähän listaa env instansseja niin niistä muodostuu matriisi
 # eli jokaiselle riville pitää määritellä yhden VM instanssin ympäristömuuttujat?
 env:
- - PY_VERSION=none GLOBAL_VAR="I am a global variable"
+  global:
+    - PY_VERSION=none GLOBAL_VAR="I am a global variable"
 
 jobs:
   include:
