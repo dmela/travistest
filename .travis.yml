@@ -29,16 +29,16 @@ jobs:
         - PY_VERSION=38
     - stage: container-tests
       language: bash
+      env: DOCKER_TAG=0.0.1-test
       before_install:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t my-calc .
       script:
         - docker run --rm my-calc python $TEST_SUITE
       after_script:
-        - echo $DOCKER_USERNAME # This is defined in web 
-        - echo $DOCKER_PASSWORD # This is defined in web
-        # - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-        # - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
+        # docker username and password have been defined in the web
+        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+        - docker push $DOCKER_USERNAME/testing-travis:$DOCKER_TAG
     - stage: deploy
       python: "3.7"
       env: 
