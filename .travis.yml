@@ -9,6 +9,7 @@ env:
     - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
     - TEST_SUITE=test_calc.py
     - DOCKER_TAG=0.0.1-test
+    - DOCKER_REPO=travis-testing
 
 jobs:
   include:
@@ -32,19 +33,20 @@ jobs:
     - stage: container-tests
       before_install:
         - docker pull python:3.6.9-alpine3.9
-        - docker build -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
+        - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
       script:
-        - docker run --rm $DOCKER_USERNAME/testing-travis:$DOCKER_TAG python $TEST_SUITE
+        - docker run --rm $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG python $TEST_SUITE
 
     - stage: deploy-to-docker
       # docker username and password have been defined in the web
       before_install:
         - docker pull python:3.6.9-alpine3.9
-        - docker build -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
+        - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
       before_script:
         - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
         - docker images
-      script: docker push $DOCKER_USERNAME/testing-travis:$DOCKER_TAG
+        -echo $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
+      script: docker push $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
 
 before_script:
   - echo $PY_VERSION
