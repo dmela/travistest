@@ -8,7 +8,7 @@ matrix:
     - env: EXTRA_TESTS=true
   allow_failures: # This allows failuires if build has following keywords (python: '3.5' and env: EXTRA_TESTS=true)
     - python: "3.5"
-    - env: EXTRA_TESTS=true
+      env: EXTRA_TESTS=true
 script: 
   - |
     if [ $EXTRA_TESTS == true ]; then
