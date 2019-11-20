@@ -8,6 +8,7 @@ env:
   global:
     - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
     - TEST_SUITE=test_calc.py
+    # docker username and password have been defined in the web
     - DOCKER_TAG=0.0.1-test
     - DOCKER_REPO=travis-testing
 
@@ -31,22 +32,19 @@ jobs:
         - PY_VERSION=38
 
     - stage: container-tests
-      before_install:
+      script:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
-      script:
         - docker run --rm $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG python $TEST_SUITE
 
     - stage: deploy-to-docker
-      # docker username and password have been defined in the web
-      before_install:
+      script:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
-      before_script:
         - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
         - docker images
         - echo $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
-      script: docker push $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
+        - docker push $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
 
 before_script:
   - echo $PY_VERSION
@@ -54,6 +52,12 @@ before_script:
   - if [ $PY_VERSION == "37" ]; then
       echo $HELLO;
     fi
+
+stages:
+  - name: python-version-tests
+    if: branch != docker-example
+  - container-tests
+  - deploy-to-docker
 
 script: python $TEST_SUITE
 
