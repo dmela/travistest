@@ -5,8 +5,9 @@ services: docker
 language: python
 
 env:
-  - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
-    TEST_SUITE=test_calc.py
+  global:
+    - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
+    - TEST_SUITE=test_calc.py
 
 jobs:
   include:
@@ -17,18 +18,15 @@ jobs:
       python: "2.7"
       env:
         - PY_VERSION=27
-          TEST_SUITE=test_calc.py
     - # parallel job in python-version-tests stage
       python: "3.7"
       env:
         - PY_VERSION=37
-          TEST_SUITE=test_calc.py
           HELLO="Hello from python version 3.7 build"
     - # parallel job in python-version-tests stage
       python: "3.8"
       env: 
         - PY_VERSION=38
-          TEST_SUITE=test_calc.py
     - stage: container-tests
       before_install:
         - docker pull python:3.6.9-alpine3.9
@@ -39,7 +37,7 @@ jobs:
       python: "3.7"
       env: 
         - PY_VERSION=37
-          TEST_SUITE=test_calc.py
+          TEST_SUITE=deploy.py
 
 before_script:
   - echo $PY_VERSION
