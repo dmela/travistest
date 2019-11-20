@@ -6,6 +6,13 @@ python:
 matrix:
   include:
     - env: EXTRA_TESTS=true
-    - python: "3.7"
-      env: EXTRA_TESTS=true
-script: echo $EXTRA_TESTS
+  allow_failures: # Täm
+    - python: "3.5"
+    - env: EXTRA_TESTS=true
+script: 
+  - |
+    if [ $EXTRA_TESTS == true ]; then
+      python test_calc_2.py
+    else
+      python test_calc.py
+    fi
