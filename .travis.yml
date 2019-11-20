@@ -6,7 +6,6 @@ language: bash
 
 env:
   global:
-    - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
     - TEST_SUITE=test_calc.py
     # docker username and password have been defined in the web
     - DOCKER_TAG=0.0.1-test
@@ -14,29 +13,11 @@ env:
 
 jobs:
   include:
-    # Python-version-tests has three (3) parallel jobs mainly.
-    # Maily because of we want to test the compatibility of the app
-    # with three different python versions.
-    - stage: python-version-tests
-      python: "2.7"
-      env:
-        - PY_VERSION=27
-    - # parallel job in python-version-tests stage
-      python: "3.7"
-      env:
-        - PY_VERSION=37
-          HELLO="Hello from python version 3.7 build"
-    - # parallel job in python-version-tests stage
-      python: "3.8"
-      env: 
-        - PY_VERSION=38
-
     - stage: container-tests
       script:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
         - docker run --rm $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG python $TEST_SUITE
-
     - stage: deploy-to-docker
       script:
         - docker pull python:3.6.9-alpine3.9
@@ -45,19 +26,6 @@ jobs:
         - docker images
         - echo $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
         - docker push $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
-
-before_script:
-  - echo $PY_VERSION
-  - echo $TRAVIS_PYTHON_VERSION
-  - if [ $PY_VERSION == "37" ]; then
-      echo $HELLO;
-    fi
-
-stages:
-  - name: python-version-tests
-    if: branch != docker-example
-  - container-tests
-  - deploy-to-docker
 
 script: python $TEST_SUITE
 
