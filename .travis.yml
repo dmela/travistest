@@ -32,16 +32,16 @@ jobs:
     - stage: container-tests
       before_install:
         - docker pull python:3.6.9-alpine3.9
-        - docker build --rm -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
+        - docker build -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
       script:
-        - docker run --rm my-calc python $TEST_SUITE
+        - docker run --rm $DOCKER_USERNAME/testing-travis:$DOCKER_TAG python $TEST_SUITE
 
     - stage: deploy-to-docker
       env: DOCKER_TAG=0.0.1-test
       # docker username and password have been defined in the web
       before_install:
         - docker pull python:3.6.9-alpine3.9
-        - docker build --rm -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
+        - docker build -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
       before_script: docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
       script: docker push $DOCKER_USERNAME/testing-travis:$DOCKER_TAG
 
