@@ -2,10 +2,10 @@ dist: xenial
 
 services: docker
 
-language: bash
+language: python
 
 env:
- - PY_VERSION=none
+ - PY_VERSION="!!--NO PYTHON VERSION DEFINED--!!"
 
 jobs:
   include:
@@ -14,47 +14,39 @@ jobs:
     # with three different python versions.
     - stage: python-version-tests
       python: "2.7"
-      script: python test_calc.py
-      env: PY_VERSION=27
+      env:
+        - PY_VERSION=27
+          TEST_SUITE=test_calc.py
     - # parallel job in python-version-tests stage
       python: "3.7"
-      script: python test_calc.py
       env:
         - PY_VERSION=37
-        - HELLO="Hello from python version 3.7 build"
+          TEST_SUITE=test_calc.py
+          HELLO="Hello from python version 3.7 build"
     - # parallel job in python-version-tests stage
       python: "3.8"
-      script: python test_calc.py
-      env: PY_VERSION=38
-
-    # - stage: container-tests
-    #   before_install:
-    #     - docker pull python:3.6.9-alpine3.9
-    #     - docker build -t my-calc .
-    #   script:
-    #     - docker run --rm my-calc python test_calc.py
-    #   after_script:
-    #     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    #     - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
-
+      env: 
+        - PY_VERSION=38
+          TEST_SUITE=test_calc.py
     - stage: deploy
       python: "3.7"
-      env: PY_VERSION=37
-      script: python deploy.py
-      # - # parallel job in deploy stage
+      env: 
+        - PY_VERSION=37
+          TEST_SUITE=test_calc.py
 
-
-after_script:
+before_script:
   - echo $PY_VERSION
   - if [ $PY_VERSION == "37" ]; then
       echo $HELLO;
     fi
 
+script: python $TEST_SUITE
+
 stages:
   # stages are executed in the following order
   - python-version-tests
   - container-tests
-  - name: deploy
+  - name: deploy # run deploy build only in master branch
     if: branch = master
 
 notifications:
