@@ -42,6 +42,7 @@ jobs:
 
 before_script:
   - echo $PY_VERSION
+  - echo $TRAVIS_PYTHON_VERSION
   - if [ $PY_VERSION == "37" ]; then
       echo $HELLO;
     fi
