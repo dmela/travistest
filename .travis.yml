@@ -28,6 +28,7 @@ jobs:
       env: 
         - PY_VERSION=38
     - stage: container-tests
+      language: bash
       before_install:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t my-calc .
