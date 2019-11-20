@@ -41,7 +41,7 @@ jobs:
       before_install:
         - docker pull python:3.6.9-alpine3.9
         - docker build -t $DOCKER_USERNAME/testing-travis:$DOCKER_TAG .
-      before_script: docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+      before_script: echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
       script: docker push $DOCKER_USERNAME/testing-travis:$DOCKER_TAG
 
 before_script:
