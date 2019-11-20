@@ -6,13 +6,13 @@ python:
 matrix:
   include:
     - env: EXTRA_TESTS=true
-  allow_failures: # Täm
+  allow_failures: # This allows failuires if build has following keywords (python: '3.5' and env: EXTRA_TESTS=true)
     - python: "3.5"
     - env: EXTRA_TESTS=true
 script: 
   - |
     if [ $EXTRA_TESTS == true ]; then
-      python test_calc_2.py
+      python test_calc_2.py # This file contains test that will ALWAYS FAIL
     else
-      python test_calc.py
+      python test_calc.py # These test WILL PASS
     fi
