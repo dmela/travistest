@@ -8,7 +8,8 @@ language: bash
 # eli jokaiselle riville pitää määritellä yhden VM instanssin ympäristömuuttujat?
 env:
   global:
-    - PY_VERSION=none GLOBAL_VAR="I am a global variable"
+    - PY_VERSION=none
+    - GLOBAL_VAR="I am a global variable"
 
 jobs:
   include:
