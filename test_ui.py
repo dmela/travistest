@@ -22,9 +22,9 @@ class TestUI(unittest.TestCase):
         self.assertEqual(ui.calculate(), 200)
         ui.clearUserInput()
         ui.arr.append(4) 
-        ui.arr.append(20) 
-        ui.arr.append(10)
-        self.assertEqual(ui.calculate(), 2)
+        ui.arr.append(10) 
+        ui.arr.append(20)
+        self.assertEqual(ui.calculate(), 0.5)
         ui.clearUserInput()
 
 if __name__ == '__main__':
