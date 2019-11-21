@@ -6,28 +6,19 @@ language: bash
 
 env:
   global:
-    - TEST_SUITE=test_calc.py
+    - TEST_SUITE="-m unittest discover"
     # docker username and password have been defined in the web
-    - DOCKER_TAG=0.0.1-test
-    - DOCKER_REPO=travis-testing
+    - DOCKER_TAG=$DOCKER_USERNAME/travis-testing:0.0.1-test
 
 jobs:
   include:
     - stage: container-tests
       script:
         - docker pull python:3.6.9-alpine3.9
-        - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
-        - docker run --rm $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG python $TEST_SUITE
-    - stage: deploy-to-docker
-      script:
-        - docker pull python:3.6.9-alpine3.9
-        - docker build -t $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG .
+        - docker build -t $DOCKER_TAG .
+        - docker run --rm $DOCKER_TAG python $TEST_SUITE
         - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
-        - docker images
-        - echo $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
-        - docker push $DOCKER_USERNAME/$DOCKER_REPO:$DOCKER_TAG
-
-script: python $TEST_SUITE
+        - docker push $DOCKER_TAG
 
 notifications:
     email: false
