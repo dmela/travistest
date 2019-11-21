@@ -34,7 +34,7 @@ jobs:
 stages:
   - python-version-tests
   - container-tests
-  - deploy
+  - deploy-to-docker
    
 notifications:
     email: false

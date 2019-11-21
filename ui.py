@@ -44,7 +44,7 @@ class UserInterface:
         print('Division == 4')
 
     def clearUserInput(self):
-        self.arr.clear()
+        self.arr = []
 
 if __name__ == '__main__':
     calculation_ui = UserInterface()
