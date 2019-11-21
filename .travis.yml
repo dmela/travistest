@@ -5,57 +5,36 @@ services: docker
 language: bash
 
 env:
- - PY_VERSION=none
+  global:
+    - TEST_SCRIPT="python -m unittest discover" # Runs all test_*.py files
+      DOCKER_TAG=$DOCKER_USERNAME/travis-testing:1.0.1-testing1.0  
 
 jobs:
   include:
-    # Python-version-tests has three (3) parallel jobs mainly.
-    # Maily because of we want to test the compatibility of the app
-    # with three different python versions.
     - stage: python-version-tests
-      python: "2.7"
-      script: python test_calc.py
-      env: PY_VERSION=27
-    - # parallel job in python-version-tests stage
       python: "3.7"
-      script: python test_calc.py
-      env:
-        - PY_VERSION=37
-        - HELLO="Hello from python version 3.7 build"
+      script: $TEST_SCRIPT
     - # parallel job in python-version-tests stage
       python: "3.8"
-      script: python test_calc.py
-      env: PY_VERSION=38
+      script: $TEST_SCRIPT
 
-    # - stage: container-tests
-    #   before_install:
-    #     - docker pull python:3.6.9-alpine3.9
-    #     - docker build -t my-calc .
-    #   script:
-    #     - docker run --rm my-calc python test_calc.py
-    #   after_script:
-    #     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-    #     - docker push $DOCKER_USERNAME/my-calc-travis-docker-sandbox
+    - stage: container-tests
+      script:
+        - docker pull python:3.6.9-alpine3.9
+        - docker build -t my-calc .
+        - docker run --rm my-calc $TEST_SCRIPT
 
-    - stage: deploy
-      python: "3.7"
-      env: PY_VERSION=37
-      script: python deploy.py
-      # - # parallel job in deploy stage
-
-
-after_script:
-  - echo $PY_VERSION
-  - if [ $PY_VERSION == "37" ]; then
-      echo $HELLO;
-    fi
+    - stage: deploy-to-docker
+      script:
+        - docker pull python:3.6.9-alpine3.9
+        - docker build -t $DOCKER_TAG .
+        - echo $DOCKER_PASSWORD | docker login -u="$DOCKER_USERNAME" --password-stdin 
+        - docker push $DOCKER_TAG
 
 stages:
-  # stages are executed in the following order
   - python-version-tests
   - container-tests
-  - name: deploy
-    if: branch = master
-
+  - deploy
+   
 notifications:
     email: false
