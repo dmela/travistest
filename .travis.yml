@@ -21,8 +21,8 @@ jobs:
     - stage: container-tests
       script:
         - docker pull python:3.6.9-alpine3.9
-        - docker build -t my-calc .
-        - docker run --rm my-calc $TEST_SCRIPT
+        - docker build -t $DOCKER_TAG .
+        - docker run --rm $DOCKER_TAG $TEST_SCRIPT
 
     - stage: deploy-to-docker
       script:
