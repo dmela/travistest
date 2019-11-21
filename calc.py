@@ -1,3 +1,5 @@
+from __future__ import division
+
 def add(x, y):
     return x + y
 
