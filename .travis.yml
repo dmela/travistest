@@ -14,7 +14,6 @@ jobs:
   include:
     - stage: container-tests
       script:
-        - docker pull python:3.6.9-alpine3.9
         - docker build -t $DOCKER_TAG .
         - docker run --rm $DOCKER_TAG python $TEST_SUITE
         - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
