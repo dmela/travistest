@@ -10,14 +10,11 @@ env:
     # docker username and password have been defined in the web
     - DOCKER_TAG=$DOCKER_USERNAME/travis-testing:0.0.1-test
 
-jobs:
-  include:
-    - stage: container-tests
-      script:
-        - docker build -t $DOCKER_TAG .
-        - docker run --rm $DOCKER_TAG python $TEST_SUITE
-        - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
-        - docker push $DOCKER_TAG
+script:
+  - docker build -t $DOCKER_TAG .
+  - docker run --rm $DOCKER_TAG python $TEST_SUITE
+  - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
+  - docker push $DOCKER_TAG
 
 notifications:
     email: false
