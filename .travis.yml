@@ -13,7 +13,7 @@ env:
 script:
   - echo my-app:$PYTHON_VERSION
   - echo PYTHON_IMAGE="python:$PYTHON_VERSION"
-  - docker built -t my-app:$PYTHON_VERSION --build-arg PYTHON_IMAGE="python:$PYTHON_VERSION" .
+  - docker build -t my-app:$PYTHON_VERSION --build-arg PYTHON_IMAGE="python:$PYTHON_VERSION" .
   - docker images
   - docker tag my-app:$PYTHON_VERSION $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD)
   - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
