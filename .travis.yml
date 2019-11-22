@@ -11,6 +11,8 @@ env:
 
 # First we create the docker file for each version of python and push them to docker hub
 script:
+  - echo my-app:$PYTHON_VERSION
+  - echo PYTHON_IMAGE="python:$PYTHON_VERSION"
   - docker built -t my-app:$PYTHON_VERSION --build-arg PYTHON_IMAGE="python:$PYTHON_VERSION" .
   - docker images
   - docker tag my-app:$PYTHON_VERSION $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD)
