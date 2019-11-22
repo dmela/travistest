@@ -1,4 +1,5 @@
-FROM python:3.6.9-alpine3.9
+ARG PYTHON_IMAGE=python:3.6-alpine
+FROM $PYTHON_IMAGE
 
 WORKDIR /code
 

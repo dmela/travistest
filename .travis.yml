@@ -5,16 +5,51 @@ services: docker
 language: bash
 
 env:
-  global:
-    - TEST_SUITE="-m unittest discover"
-    # docker username and password have been defined in the web
-    - DOCKER_TAG=$DOCKER_USERNAME/travis-testing:0.0.1-test
+  - PYTHON_VERSION=3.6-alpine
+  - PYTHON_VERSION=3.7-alpine
+  # - PYTHON_VERSION=3.8-alpine
 
+# First we create the docker file for each version of python and push them to docker hub
 script:
-  - docker build -t $DOCKER_TAG .
-  - docker run --rm $DOCKER_TAG python $TEST_SUITE
+  - docker built -t python:$PYTHON_VERSION --build-arg PYTHON_IMAGE="python:${PYTHON_VERSION}"
+  - docker tag python:$PYTHON_VERSION $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD)
   - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
-  - docker push $DOCKER_TAG
+  - docker push $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD)
+
+# For each stage pull the appropriate docker image and run tests in a container
+jobs:
+  include:
+    - stage: container-tests # container-tests for 3.6-alpine
+      name: "Test 3.6-alpine"
+      install: skip
+      script: docker run $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD) python -m unittest $PYTHON_TARGET
+      env:
+        - PYTHON_VERSION=3.6-alpine
+        - PYTHON_TARGET=test_calc.py
+    - # container-tests for 3.6-alpine
+      name: "Test 3.6-alpine"
+      install: skip
+      script: docker run $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD) python -m unittest $PYTHON_TARGET
+      env:
+        - PYTHON_VERSION=3.6-alpine
+        - PYTHON_TARGET=test_ui.py
+      if: branch = user-interface
+    - # container-tests for 3.7-alpine
+      name: "Test 3.7-alpine"
+      install: skip
+      script: docker run $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD) python -m unittest $PYTHON_TARGET
+      env:
+        - PYTHON_VERSION=3.7-alpine
+        - PYTHON_TARGET=test_calc.py
+    - # container-tests for alpine 3.7
+      name: "Test 3.7-alpine"
+      install: skip
+      script: docker run $DOCKER_USERNAME/travis-testing:$PYTHON_VERSION-$(git rev-parse HEAD) python -m unittest $PYTHON_TARGET
+      env:
+        - PYTHON_VERSION=3.7-alpine
+        - PYTHON_TARGET=test_ui.py
+      if: branch = user-interface
+
 
 notifications:
     email: false
